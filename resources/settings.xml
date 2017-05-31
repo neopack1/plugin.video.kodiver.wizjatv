@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<settings>
+    <setting type="lsep" label="WizjaTV ceredentials"/>
+    <setting id="plugin.video.kodiver.wizjatv.user" type="text" label="User" default=""/>
+    <setting id="plugin.video.kodiver.wizjatv.pass" type="text" option="hidden" visible="true" label="Password"
+             default=""/>
+    <setting id="plugin.video.kodiver.wizjatv.token" type="text" visible="false" default=""/>
+</settings>
