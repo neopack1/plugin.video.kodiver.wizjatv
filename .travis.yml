@@ -1,3 +1,5 @@
 script:
-        - zip -9 -r --exclude=*.idea* --exclude=*.gitignore* --exclude=*.git* --exclude=.travis.yml plugin.video.kodiver.wizjatv.0.zip ../plugin.video.kodiver.wizjatv
+        - VERSION = 0.$TRAVIS_BUILD_NUMBER
+        - ARTIFACT = plugin.video.kodiver.wizjatv.$VERSION.zip
+        - zip -9 -r --exclude=*.idea* --exclude=*.gitignore* --exclude=*.git* --exclude=.travis.yml $ARTIFACT ../plugin.video.kodiver.wizjatv
 
