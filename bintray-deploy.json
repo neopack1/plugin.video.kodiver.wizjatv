@@ -1,0 +1,16 @@
+{
+  "package": {
+    "name": "release",
+    "repo": "kodi",
+    "subject": "kodiver"
+  },
+  "version": {
+    "name": "VERSION"
+  },
+  "files": [
+    {
+      "includePattern": "*.zip"
+    }
+  ],
+  "publish": true
+}
