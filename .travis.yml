@@ -1,0 +1,3 @@
+script:
+        - zip -9 -r --exclude=*.idea*,*.gitignore*,*.git*  plugin.video.kodiver.wizjatv.zip ../plugin.video.kodiver.wizjatv
+
