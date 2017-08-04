@@ -4,5 +4,5 @@
     <setting id="plugin.video.kodiver.wizjatv.user" type="text" label="User" default=""/>
     <setting id="plugin.video.kodiver.wizjatv.pass" type="text" option="hidden" visible="true" label="Password"
              default=""/>
-    <setting id="plugin.video.kodiver.wizjatv.token" type="text" visible="false" default=""/>
+    <setting id="plugin.video.kodiver.wizjatv.cookie" type="text" visible="false" default=""/>
 </settings>
