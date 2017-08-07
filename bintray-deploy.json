@@ -7,7 +7,7 @@
     "vcs_url": "https://github.com/kodiver/plugin.video.kodiver.wizjatv.git"
   },
   "version": {
-    "name": "VERSION"
+    "name": "plugin.video.kodiver.wizjatv-VERSION"
   },
   "files": [
     {
