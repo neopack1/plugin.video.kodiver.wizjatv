@@ -9,4 +9,5 @@ deploy:
         file: bintray-deploy.json
         user: "gmaslowski"
         key: $BINTRAY_API_KEY
+        skip_cleanup: true
         on: master
