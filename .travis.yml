@@ -18,7 +18,7 @@ script:
         - cd plugin.video.kodiver.wizjatv/
         - cp addon.xml repository.kodiver/addon.xml
         - cd repository.kodiver
-        - xmlstarlet ed -d /addons/addon[@id='plugin.video.kodiver.wizjatv'] > addons.xml
+        - xmlstarlet ed -d /addons/addon[@id='plugin.video.kodiver.wizjatv'] addons.xml > addons.xml
         - xmlstarlet sel -R -t -c / -c "document('addons.xml')" addon.xml | xmlstarlet ed -m /xsl-select/addon /xsl-select/addons | xmlstarlet sel -t -c /xsl-select/* - | xmlstarlet fo
         - git add addons.xml
         - git commit -m 'Bump to newest plugin.video.kodiver.wizjatv: $VERSION'
