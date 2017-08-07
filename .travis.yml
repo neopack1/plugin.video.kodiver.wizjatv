@@ -5,7 +5,7 @@ before_install:
         - sudo apt-get -qq install xmlstarlet
 
 before_script:
-        - git clone git@github.com:kodiver/repository.kodiver.git
+        - git clone git://github.com/kodiver/repository.kodiver.git
 
 script:
         - export VERSION=0.$TRAVIS_BUILD_NUMBER
