@@ -2,7 +2,8 @@
   "package": {
     "name": "release",
     "repo": "kodi",
-    "subject": "kodiver"
+    "subject": "kodiver",
+    "licenses": ["MIT"]
   },
   "version": {
     "name": "VERSION"
