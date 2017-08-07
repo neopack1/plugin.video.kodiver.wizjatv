@@ -11,7 +11,7 @@
   },
   "files": [
     {
-      "includePattern": ".*.zip", "uploadPattern": "/$1"
+      "includePattern": "ZIP.ARTIFACT"
     }
   ],
   "publish": true
