@@ -1,6 +1,6 @@
 {
   "package": {
-    "name": "plugin.video.kodiver.wizjatv",
+    "name": "addons",
     "repo": "kodi",
     "subject": "kodiver",
     "licenses": ["MIT"],
@@ -11,7 +11,7 @@
   },
   "files": [
     {
-      "includePattern": "ZIP.ARTIFACT", "uploadPattern": "/ZIP.ARTIFACT"
+      "includePattern": "ZIP.ARTIFACT", "uploadPattern": "/plugin.video.kodiver.wizjatv/ZIP.ARTIFACT"
     }
   ],
   "publish": true
