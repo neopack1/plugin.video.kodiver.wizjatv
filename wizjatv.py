@@ -84,12 +84,12 @@ def channelStream(channel_id):
         return createRtmpFromSrc(re.compile('src: "(.*?)"').findall(content)[0], ref)
 
     except Exception as e:
-        xbmc.log(e, xbmc.LOGWARNING)
+        xbmc.log('%s' % e, xbmc.LOGWARNING)
     return
 
 
 def createRtmpFromSrc(src, ref):
-    decodedRtmp = urllib.unquote().decode('utf8')
+    decodedRtmp = urllib.unquote(src).decode('utf8')
     rtmpSections = re.compile('rtmp://(.*?)/(.*?)/(.*?)\?(.*?)\&streamType').findall(decodedRtmp)
     xbmcRtmp = 'rtmp://' + rtmpSections[0][0] + '/' + rtmpSections[0][1] + '?' + rtmpSections[0][3] + \
                ' app=' + rtmpSections[0][1] + '?' + rtmpSections[0][3] + \

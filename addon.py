@@ -48,13 +48,7 @@ elif action[0] == 'play':
         playItem = xbmcgui.ListItem('title', path=url)
         playItem.setInfo(type="video", infoLabels={"Title": "Title"})
 
-        xbmcPlayer = xbmc.Player()
         xbmcplugin.setResolvedUrl(ADDON_HANDLE, True, playItem)
 
-        for i in range(0, 240):
-            if xbmcPlayer.isPlayingVideo():
-                break
-            xbmc.sleep(1000)
-
     except Exception as e:
-        xbmc.log('ERROR PLAY:%s' % e, xbmc.LOGWARNING)
+        xbmc.log('%s' % e, xbmc.LOGWARNING)
