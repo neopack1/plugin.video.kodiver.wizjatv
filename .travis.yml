@@ -7,6 +7,6 @@ script:
 deploy:
         provider: bintray
         file: bintray-deploy.json
-        user: "kodiver"
+        user: "gmaslowski"
         key: $BINTRAY_API_KEY
         on: master
