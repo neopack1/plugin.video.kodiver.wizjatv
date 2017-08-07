@@ -6,7 +6,7 @@ script:
         - sed -i.bak s/VERSION/$VERSION/g bintray-deploy.json
         - sed -i.bak s/ZIP.ARTIFACT/$ARTIFACT/g bintray-deploy.json
         - cd .. 
-        - zip -9 -r --exclude=*.idea* --exclude=*.gitignore* --exclude=*.git* --exclude=.travis.yml* --exclude=*.json* --exlude=*.bak* plugin.video.kodiver.wizjatv/$ARTIFACT plugin.video.kodiver.wizjatv
+        - zip -9 -r --exclude=*.idea* --exclude=*.gitignore* --exclude=*.git* --exclude=.travis.yml* --exclude=*.json* --exclude=*.bak* plugin.video.kodiver.wizjatv/$ARTIFACT plugin.video.kodiver.wizjatv
         - cd plugin.video.kodiver.wizjatv/
 
 deploy:
