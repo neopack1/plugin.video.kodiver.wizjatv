@@ -3,7 +3,8 @@
     "name": "release",
     "repo": "kodi",
     "subject": "kodiver",
-    "licenses": ["MIT"]
+    "licenses": ["MIT"],
+    "vcs_url": "https://github.com/kodiver/plugin.video.kodiver.wizjatv.git"
   },
   "version": {
     "name": "VERSION"
