@@ -3,6 +3,7 @@ script:
         - export ARTIFACT=plugin.video.kodiver.wizjatv.$VERSION.zip
         - sed -i.bak s/VERSION/$VERSION/g bintray-deploy.json
         - zip -9 -r --exclude=*.idea* --exclude=*.gitignore* --exclude=*.git* --exclude=.travis.yml $ARTIFACT ../plugin.video.kodiver.wizjatv
+        - ls -CFal
 
 deploy:
         provider: bintray
