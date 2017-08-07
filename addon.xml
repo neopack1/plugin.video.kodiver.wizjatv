@@ -9,12 +9,12 @@
         <provides>video</provides>
     </extension>
     <extension point="xbmc.addon.metadata">
-        <summary>Wizja.TV - Polska telewizja w internecie</summary>
-        <summary lang="pl">Wizja.TV - Polska telewizja w internecie</summary>
-        <description>Polska telewizja w internecie</description>
-        <description lang="pl">Polska telewizja w internecie</description>
-        <disclaimer>All cameras registered to http://www.webcamera.pl</disclaimer>
-        <disclaimer lang="pl">All cameras registered to http://www.webcamera.pl</disclaimer>
+        <summary>Wizja.TV - Polish TV</summary>
+        <summary lang="pl">Wizja.TV - Polska telewizja</summary>
+        <description>Polish TV</description>
+        <description lang="pl">Polska telewizja</description>
+        <disclaimer>Polish TV</disclaimer>
+        <disclaimer lang="pl">Polska telewizja</disclaimer>
         <platform>all</platform>
         <language>en pl</language>
         <website>http://wizja.tv/</website>
