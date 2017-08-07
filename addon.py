@@ -1,21 +1,11 @@
-import sys
-import urllib
-import urlparse
-
-import xbmc
-import xbmcaddon
 import xbmcgui
 import xbmcplugin
+import urllib
 
 import wizjatv
-
-ADDON = xbmcaddon.Addon(id='plugin.video.kodiver.wizjatv')
-ADDON_URL = sys.argv[0]
-ADDON_HANDLE = int(sys.argv[1])
-ADDON_ARGS = urlparse.parse_qs(sys.argv[2][1:])
+from shared import *
 
 xbmcplugin.setContent(ADDON_HANDLE, 'movies')
-
 
 def build_url(params):
     return ADDON_URL + '?' + urllib.urlencode(params)
@@ -42,7 +32,7 @@ elif action[0] == 'play':
 
     url = wizjatv.channelStream(ADDON_ARGS.get('channel', None)[0])
 
-    xbmc.log(url, xbmc.LOGWARNING)
+    logger.log_notice(url)
 
     try:
         playItem = xbmcgui.ListItem('title', path=url)
@@ -51,4 +41,4 @@ elif action[0] == 'play':
         xbmcplugin.setResolvedUrl(ADDON_HANDLE, True, playItem)
 
     except Exception as e:
-        xbmc.log('%s' % e, xbmc.LOGWARNING)
+        logger.log_err('%s' % e)

@@ -2,9 +2,9 @@
 
 import re
 import urllib
+from shared import *
 
 import requests
-import xbmc
 import xbmcaddon
 from bs4 import BeautifulSoup
 
@@ -35,10 +35,9 @@ def list_channels():
     return channels
 
 
-def wizjalogin():
+def wizja_login():
     try:
         params = {}
-        url = WIZJA_TV_LOGIN_URL
 
         params['login'] = 'zaloguj'
         params['user_name'] = xbmcaddon.Addon(id='plugin.video.kodiver.wizjatv').getSetting(
@@ -46,7 +45,7 @@ def wizjalogin():
         params['user_password'] = xbmcaddon.Addon(id='plugin.video.kodiver.wizjatv').getSetting(
             'plugin.video.kodiver.wizjatv.pass')
 
-        result = requests.post(url, data=params)
+        result = requests.post(WIZJA_TV_LOGIN_URL, data=params)
 
         cookie = result.cookies.get_dict()
 
@@ -54,12 +53,24 @@ def wizjalogin():
                                                                       str(cookie))
 
     except Exception as e:
-        xbmc.log(e, xbmc.LOGWARNING)
+        logger.log_err("%s" % e)
     return
 
 
 def channelStream(channel_id):
-    wizjalogin()
+
+    if hasCookies():
+        cookie = eval(xbmcaddon.Addon(id='plugin.video.kodiver.wizjatv').getSetting('plugin.video.kodiver.wizjatv.cookie'))
+        result = requests.get(WIZJA_TV_LOGIN_URL, cookies=cookie)
+
+        if 'Zalogowany jako' not in result.content:
+            logger.log_notice('Cookies set, but not loged in. Login in.')
+            wizja_login()
+        else:
+            logger.log_notice('Cookies set, and loged in.')
+    else:
+        logger.log_notice('Cookies not set. Login in.')
+        wizja_login()
 
     try:
 
@@ -84,8 +95,15 @@ def channelStream(channel_id):
         return createRtmpFromSrc(re.compile('src: "(.*?)"').findall(content)[0], ref)
 
     except Exception as e:
-        xbmc.log('%s' % e, xbmc.LOGWARNING)
+        logger.log_err('%s' % e)
     return
+
+
+def hasCookies():
+    if xbmcaddon.Addon(id='plugin.video.kodiver.wizjatv').getSetting('plugin.video.kodiver.wizjatv.cookie') == "":
+        return False
+    else:
+        return True
 
 
 def createRtmpFromSrc(src, ref):
