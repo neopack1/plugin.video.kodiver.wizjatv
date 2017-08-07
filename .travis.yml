@@ -4,9 +4,6 @@ before_install:
         - sudo apt-get update
         - sudo apt-get -qq install xmlstarlet
 
-before_script:
-        - git clone git://github.com/kodiver/repository.kodiver.git
-
 script:
         - export VERSION=0.$TRAVIS_BUILD_NUMBER
         - export ARTIFACT=plugin.video.kodiver.wizjatv-$VERSION.zip
@@ -16,13 +13,14 @@ script:
         - cd .. 
         - zip -9 -r --exclude=*.idea* --exclude=*.gitignore* --exclude=*.git* --exclude=*.travis.yml* --exclude=*.json* --exclude=*.bak* plugin.video.kodiver.wizjatv/$ARTIFACT plugin.video.kodiver.wizjatv
         - cd plugin.video.kodiver.wizjatv/
+        - git clone git://github.com/kodiver/repository.kodiver.git
         - cp addon.xml repository.kodiver/addon.xml
         - cd repository.kodiver
         - xmlstarlet ed -d /addons/addon[@id='plugin.video.kodiver.wizjatv'] addons.xml > addons.xml
         - xmlstarlet sel -R -t -c / -c "document('addons.xml')" addon.xml | xmlstarlet ed -m /xsl-select/addon /xsl-select/addons | xmlstarlet sel -t -c /xsl-select/* - | xmlstarlet fo
         - git add addons.xml
         - git commit -m 'Bump to newest plugin.video.kodiver.wizjatv: $VERSION'
-        - git push origin/master
+        - git push origin master
 
 deploy:
         provider: bintray
