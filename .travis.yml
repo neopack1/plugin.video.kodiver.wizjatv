@@ -3,6 +3,7 @@ language: bash
 script:
         - export VERSION=0.$TRAVIS_BUILD_NUMBER
         - export ARTIFACT=plugin.video.kodiver.wizjatv-$VERSION.zip
+        - sed -i.bak s/VERSION/$VERSION/g addon.xml
         - sed -i.bak s/VERSION/$VERSION/g bintray-deploy.json
         - sed -i.bak s/ZIP.ARTIFACT/$ARTIFACT/g bintray-deploy.json
         - cd .. 
