@@ -21,6 +21,7 @@ script:
         - rm -rf plugin-addon.xml addons2.xml
         - git config --global user.email "travis@travis-ci.org"
         - git config --global user.name "Travis CI"
+        - git add addons.xml
         - git commit -m "Bump to newest plugin.video.kodiver.wizjatv ${VERSION}"
         - git push https://${GITHUB_TOKEN}@github.com/kodiver/repository.kodiver.git master
 
