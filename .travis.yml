@@ -7,7 +7,7 @@ script:
 deploy:
         provider: bintray
         file: bintray-deploy.json
-        user: "gmaslowski"
+        user: "gregmaslowski"
         key: $BINTRAY_API_KEY
         skip_cleanup: true
         on: master
