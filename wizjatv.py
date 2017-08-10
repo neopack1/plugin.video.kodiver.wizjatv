@@ -2,11 +2,11 @@
 
 import re
 import urllib
-from shared import *
 
 import requests
-import xbmcaddon
 from bs4 import BeautifulSoup
+
+from shared import *
 
 WIZJA_TV_URL = 'https://wizja.tv/'
 WIZJA_TV_LOGIN_URL = WIZJA_TV_URL + 'users/index.php'
@@ -40,27 +40,23 @@ def wizja_login():
         params = {}
 
         params['login'] = 'zaloguj'
-        params['user_name'] = xbmcaddon.Addon(id='plugin.video.kodiver.wizjatv').getSetting(
-            'plugin.video.kodiver.wizjatv.user')
-        params['user_password'] = xbmcaddon.Addon(id='plugin.video.kodiver.wizjatv').getSetting(
-            'plugin.video.kodiver.wizjatv.pass')
+        params['user_name'] = ADDON.getSetting('plugin.video.kodiver.wizjatv.user')
+        params['user_password'] = ADDON.getSetting('plugin.video.kodiver.wizjatv.pass')
 
         result = requests.post(WIZJA_TV_LOGIN_URL, data=params)
 
         cookie = result.cookies.get_dict()
 
-        xbmcaddon.Addon(id='plugin.video.kodiver.wizjatv').setSetting('plugin.video.kodiver.wizjatv.cookie',
-                                                                      str(cookie))
+        ADDON.setSetting('plugin.video.kodiver.wizjatv.cookie', str(cookie))
 
     except Exception as e:
         logger.log_err("%s" % e)
     return
 
 
-def channelStream(channel_id):
-
-    if hasCookies():
-        cookie = eval(xbmcaddon.Addon(id='plugin.video.kodiver.wizjatv').getSetting('plugin.video.kodiver.wizjatv.cookie'))
+def channel_stream(channel_id):
+    if has_cookies():
+        cookie = eval(ADDON.getSetting('plugin.video.kodiver.wizjatv.cookie'))
         result = requests.get(WIZJA_TV_LOGIN_URL, cookies=cookie)
 
         if 'Zalogowany jako' not in result.content:
@@ -74,8 +70,7 @@ def channelStream(channel_id):
 
     try:
 
-        cookie = eval(
-            xbmcaddon.Addon(id='plugin.video.kodiver.wizjatv').getSetting('plugin.video.kodiver.wizjatv.cookie'))
+        cookie = eval(ADDON.getSetting('plugin.video.kodiver.wizjatv.cookie'))
 
         ref = WIZJA_TV_WATCH_URL + '?id=%s' % channel_id
         requests.get(ref, cookies=cookie)
@@ -92,27 +87,27 @@ def channelStream(channel_id):
             result = requests.get(url, cookies=cookie, headers={'Referer': ref})
             content = result.content
 
-        return createRtmpFromSrc(re.compile('src: "(.*?)"').findall(content)[0], ref)
+        return create_rtmp_from_src(re.compile('src: "(.*?)"').findall(content)[0], ref)
 
     except Exception as e:
         logger.log_err('%s' % e)
     return
 
 
-def hasCookies():
-    if xbmcaddon.Addon(id='plugin.video.kodiver.wizjatv').getSetting('plugin.video.kodiver.wizjatv.cookie') == "":
+def has_cookies():
+    if ADDON.getSetting('plugin.video.kodiver.wizjatv.cookie') == "":
         return False
     else:
         return True
 
 
-def createRtmpFromSrc(src, ref):
-    decodedRtmp = urllib.unquote(src).decode('utf8')
-    rtmpSections = re.compile('rtmp://(.*?)/(.*?)/(.*?)\?(.*?)\&streamType').findall(decodedRtmp)
-    xbmcRtmp = 'rtmp://' + rtmpSections[0][0] + '/' + rtmpSections[0][1] + '?' + rtmpSections[0][3] + \
-               ' app=' + rtmpSections[0][1] + '?' + rtmpSections[0][3] + \
-               ' playpath=' + rtmpSections[0][2] + '?' + rtmpSections[0][3] + \
+def create_rtmp_from_src(src, ref):
+    decoded_rtmp = urllib.unquote(src).decode('utf8')
+    rtmp_sections = re.compile('rtmp://(.*?)/(.*?)/(.*?)\?(.*?)\&streamType').findall(decoded_rtmp)
+    xbmc_rtmp = 'rtmp://' + rtmp_sections[0][0] + '/' + rtmp_sections[0][1] + '?' + rtmp_sections[0][3] + \
+               ' app=' + rtmp_sections[0][1] + '?' + rtmp_sections[0][3] + \
+               ' playpath=' + rtmp_sections[0][2] + '?' + rtmp_sections[0][3] + \
                ' swfVfy=1 flashver=LNX\\25,0,0,12 timeout=25 ' \
                'swfUrl=https://wizja.tv/player/StrobeMediaPlayback_v4.swf live=true ' \
                'pageUrl=' + ref
-    return xbmcRtmp
+    return xbmc_rtmp
