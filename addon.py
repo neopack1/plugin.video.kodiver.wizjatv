@@ -1,4 +1,5 @@
 import urllib
+import ast
 
 import xbmc
 import xbmcgui
@@ -41,10 +42,7 @@ if action is None:
 
 elif action[0] == 'play':
 
-    channel = eval(ADDON_ARGS.get('channel', None)[0])
-    player = xbmc.Player()
-
-    logger.log_notice(str(channel))
+    channel = ast.literal_eval(ADDON_ARGS.get('channel', None)[0])
 
     if ADDON.getSetting('plugin.video.kodiver.wizjatv.user') == '':
         ok = xbmcgui.Dialog().ok("No user/pass set for WizjaTV",
