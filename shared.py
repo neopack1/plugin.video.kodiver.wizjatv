@@ -1,5 +1,4 @@
 import xbmcaddon
-import xbmcplugin
 
 import sys
 import urlparse

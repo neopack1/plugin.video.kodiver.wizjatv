@@ -2,6 +2,7 @@
 
 import re
 import urllib
+import ast
 
 import requests
 from bs4 import BeautifulSoup
@@ -56,7 +57,7 @@ def wizja_login():
 
 def channel_stream(channel_id):
     if has_cookies():
-        cookie = eval(ADDON.getSetting('plugin.video.kodiver.wizjatv.cookie'))
+        cookie = ast.literal_eval(ADDON.getSetting('plugin.video.kodiver.wizjatv.cookie'))
         result = requests.get(WIZJA_TV_LOGIN_URL, cookies=cookie)
 
         if 'Zalogowany jako' not in result.content:
@@ -70,7 +71,7 @@ def channel_stream(channel_id):
 
     try:
 
-        cookie = eval(ADDON.getSetting('plugin.video.kodiver.wizjatv.cookie'))
+        cookie = ast.literal_eval(ADDON.getSetting('plugin.video.kodiver.wizjatv.cookie'))
 
         ref = WIZJA_TV_WATCH_URL + '?id=%s' % channel_id
         requests.get(ref, cookies=cookie)
