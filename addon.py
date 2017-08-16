@@ -30,6 +30,7 @@ if action is None:
     for channel in channels:
         li = xbmcgui.ListItem(channel['title'], iconImage=channel['thumb'], thumbnailImage=channel['thumb'])
         li.setProperty('IsPlayable', 'true')
+        li.setProperty('fanart_image', ADDON.getAddonInfo('fanart'))
         xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),
                                     url=build_url({'action': 'play', 'channel': channel}),
                                     listitem=li,
