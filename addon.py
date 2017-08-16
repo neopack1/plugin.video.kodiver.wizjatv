@@ -1,7 +1,6 @@
 import urllib
 import ast
 
-import xbmc
 import xbmcgui
 import xbmcplugin
 
