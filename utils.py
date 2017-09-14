@@ -11,6 +11,9 @@ class ContextAwareLogger:
     def log_notice(self, message):
         self._log(message, xbmc.LOGNOTICE)
 
+    def log_debug(self, message):
+        self._log(message, xbmc.LOGDEBUG)
+
     def log_warn(self, message):
         self._log(message, xbmc.LOGWARNING)
 

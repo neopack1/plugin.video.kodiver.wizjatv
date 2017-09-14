@@ -14,23 +14,30 @@ WIZJA_TV_LOGIN_URL = WIZJA_TV_URL + 'users/index.php'
 WIZJA_TV_WATCH_URL = WIZJA_TV_URL + 'watch.php'
 WIZJA_TV_PORTER_URL = WIZJA_TV_URL + 'porter.php'
 WIZJA_TV_KILLME_URL = WIZJA_TV_URL + 'killme.php'
+WIZJA_TV_CHANNELS_URL = WIZJA_TV_URL + '?function=epg'
 
 
 def list_channels():
     channels = []
-    r = requests.get(WIZJA_TV_URL)
+    r = requests.get(WIZJA_TV_CHANNELS_URL)
     r.encoding = 'utf-8'
     page = BeautifulSoup(r.text, 'html.parser')
-    html_channels = page.find_all('div')[1]
+    html_channels = page.body.contents[1]
 
-    for channel in html_channels.find_all("a"):
-        image_source = str(channel.find_all('img')[0]['src'])
-        channel_id = str(channel['href']).replace('watch.php?id=', '')
+    for channel_table in html_channels.find_all("center"):
+        image_source = str(channel_table.find_all('img')[0]['src'])
+        channel_id = str(channel_table.find_all('a')[0]['href']).replace('http://wizja.tv/watch.php?id=', '')
+        epg = ''
+
+        for whats_playing in channel_table.find_all("td")[1:]:
+            print str(whats_playing)
+            epg += whats_playing.text.strip() + '[CR]'
 
         channels.append({
             'id': channel_id,
             'thumb': WIZJA_TV_URL + image_source,
-            'title': image_source.replace('ch_logo/', '').replace('.png', '').upper()
+            'title': image_source.replace('ch_logo/', '').replace('.png', '').upper(),
+            'epg': epg
         })
 
     return channels
