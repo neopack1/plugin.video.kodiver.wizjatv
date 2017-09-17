@@ -1,19 +1,13 @@
-import ast
-import threading
-import urllib
-from datetime import datetime
+# -*- coding: utf-8 -*-
 
-import xbmc
+import ast
+import urllib
+
 import xbmcgui
 import xbmcplugin
 
 import wizjatv
 from shared import *
-
-try:
-    import StorageServer
-except Exception:
-    import storageserverdummy as StorageServer
 
 xbmcplugin.setContent(ADDON_HANDLE, 'movies')
 
@@ -25,38 +19,10 @@ def build_url(params):
 action = ADDON_ARGS.get('action', None)
 
 
-def list_item(channel, url):
+def create_play_item(channel, url):
     li = xbmcgui.ListItem(channel['title'], path=url)
     li.setInfo(type="video", infoLabels={"Title": channel['title']})
     return li
-
-
-def refresh_epg():
-    cache = StorageServer.StorageServer(ADDON_NAME, 24)
-    cache.table_name = ADDON_NAME
-    timer_inline = threading.Timer(15.0, refresh_epg)
-
-    try:
-        from_cache = cache.get("lastEpgRefresh")
-        last_refresh = datetime.strptime(from_cache, "%Y-%m-%d %H:%M:%S.%f")
-    except TypeError:  # Python, why??
-        import time
-        last_refresh = datetime.fromtimestamp(time.mktime(time.strptime(from_cache, "%Y-%m-%d %H:%M:%S.%f")))
-    except Exception as ex:
-        logger.log_err("Cannot read from cache %s" % ex)
-        last_refresh = None
-
-    now = datetime.now()
-    logger.log_debug("Time of last EPG refresh: %s" % last_refresh)
-
-    if last_refresh is None or (now - last_refresh).total_seconds() > 15 * 60:
-        logger.log_notice("Refreshing EPG.")
-        xbmc.executebuiltin('Container.Refresh')
-        now_as_string = datetime.strftime(now, "%Y-%m-%d %H:%M:%S.%f")
-        cache.delete("lastEpgRefresh")
-        cache.set("lastEpgRefresh", now_as_string)
-    else:
-        timer_inline.start()
 
 
 if action is None:
@@ -68,6 +34,7 @@ if action is None:
         li.setProperty('IsPlayable', 'true')
         li.setProperty('fanart_image', ADDON.getAddonInfo('fanart'))
         li.setInfo(type='video', infoLabels={'plot': channel['epg']})
+        li.addContextMenuItems([('Odśwież EPG', 'Container.Refresh')])
         xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),
                                     url=build_url({'action': 'play', 'channel': channel}),
                                     listitem=li,
@@ -76,7 +43,6 @@ if action is None:
     xbmcplugin.addSortMethod(ADDON_HANDLE, xbmcplugin.SORT_METHOD_LABEL_IGNORE_THE)
     xbmcplugin.endOfDirectory(ADDON_HANDLE)
 
-    refresh_epg()
 
 elif action[0] == 'play':
 
@@ -92,5 +58,5 @@ elif action[0] == 'play':
     url = wizjatv.channel_stream(channel['id'])
 
     logger.log_notice("Url to play: %s" % url)
-    playItem = list_item(channel, url)
+    playItem = create_play_item(channel, url)
     xbmcplugin.setResolvedUrl(ADDON_HANDLE, True, playItem)
