@@ -24,21 +24,37 @@ def list_channels():
     page = BeautifulSoup(r.text, 'html.parser')
     html_channels = page.body.contents[1]
 
-    for channel_table in html_channels.find_all("center"):
-        image_source = str(channel_table.find_all('img')[0]['src'])
-        channel_id = str(channel_table.find_all('a')[0]['href']).replace('http://wizja.tv/watch.php?id=', '')
-        epg = ''
+    channels_find_all = html_channels.find_all("center")
 
-        for whats_playing in channel_table.find_all("td")[1:]:
-            print str(whats_playing)
-            epg += whats_playing.text.strip() + '[CR]'
+    # SPMC dirty hack
+    if len(channels_find_all) != 1:
+        for channel_table in channels_find_all:
+            image_source = str(channel_table.find_all('img')[0]['src'])
+            channel_id = str(channel_table.find_all('a')[0]['href']).replace('http://wizja.tv/watch.php?id=', '')
+            epg = ''
 
-        channels.append({
-            'id': channel_id,
-            'thumb': WIZJA_TV_URL + image_source,
-            'title': image_source.replace('ch_logo/', '').replace('.png', '').upper(),
-            'epg': epg
-        })
+            for whats_playing in channel_table.find_all("td")[1:]:
+                epg += whats_playing.text.strip() + '[CR]'
+
+            channels.append({
+                'id': channel_id,
+                'thumb': WIZJA_TV_URL + image_source,
+                'title': image_source.replace('ch_logo/', '').replace('.png', '').upper(),
+                'epg': epg
+            })
+    else:
+        html_channels = page.find_all('div')[1]
+
+        for channel in html_channels.find_all("a"):
+            image_source = str(channel.find_all('img')[0]['src'])
+            channel_id = str(channel['href']).replace('watch.php?id=', '')
+
+            channels.append({
+                'id': channel_id,
+                'thumb': WIZJA_TV_URL + image_source,
+                'title': image_source.replace('ch_logo/', '').replace('.png', '').upper(),
+                'epg': ""
+            })
 
     return channels
 
